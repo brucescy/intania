@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intania Alumni - เพิ่มสมาชิกใหม่</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+    <style> body { font-family: 'Prompt', sans-serif; background-color: #f3f4f6; } </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="max-w-5xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+        
+        {% if error %}
+        <div class="mb-6 p-4 bg-red-50 border-l-4 border-red-500 rounded-r-xl shadow-sm flex items-center">
+            <svg class="w-5 h-5 text-red-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+            </svg>
+            <span class="text-red-800 font-medium">{{ error }}</span>
+        </div>
+        {% endif %}
+
+        <form method="POST" action="/add" enctype="multipart/form-data" class="space-y-6">
+            
+            <div class="flex justify-between items-center mb-8">
+                <div>
+                    <a href="/" class="inline-flex items-center text-sm text-blue-600 hover:text-blue-800 font-medium mb-3">
+                        &larr; กลับไปหน้า Dashboard
+                    </a>
+                    <h1 class="text-3xl font-bold text-gray-900">เพิ่มประวัติศิษย์เก่าคนใหม่</h1>
+                    <p class="text-gray-500 mt-1">กรอกข้อมูลเพื่อบันทึกลงระบบฐานข้อมูลกลาง</p>
+                </div>
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg shadow transition-colors font-medium">
+                    + บันทึกสมาชิกใหม่
+                </button>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                <h2 class="text-xl font-semibold mb-4 text-gray-700 border-b pb-2">ข้อมูลหลักระบบ</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                    <div>
+                        <label class="block text-sm font-semibold text-red-600 mb-1">รหัสสมาชิก (CuCode) *จำเป็น</label>
+                        <input type="text" name="CuCode" placeholder="เช่น 0020532" required class="w-full border-2 border-blue-100 focus:border-blue-500 rounded-md px-3 py-2 outline-none font-semibold text-gray-900">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-500 mb-1">รุ่น Intania (CLASS)</label>
+                        <input type="text" name="CLASS" placeholder="เช่น 60" class="w-full border border-gray-300 rounded-md px-3 py-2 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-500 mb-1">รูปประจำตัว</label>
+                        <input type="file" name="picture_file" accept="image/*" class="text-sm text-gray-500 file:mr-4 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                <h2 class="text-xl font-semibold mb-4 text-gray-700 border-b pb-2">ข้อมูลส่วนตัว</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-sm text-gray-500 mb-1">คำนำหน้า</label>
+                        <input type="text" name="TITLE_T" placeholder="เช่น นาย / นางสาว" class="w-full border border-gray-300 rounded-md px-3 py-2 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-500 mb-1">ชื่อ (ภาษาไทย)</label>
+                        <input type="text" name="NAME_T" class="w-full border border-gray-300 rounded-md px-3 py-2 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-500 mb-1">นามสกุล (ภาษาไทย)</label>
+                        <input type="text" name="SNAME_T" class="w-full border border-gray-300 rounded-md px-3 py-2 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-500 mb-1">ชื่อเล่น</label>
+                        <input type="text" name="NINAME" class="w-full border border-gray-300 rounded-md px-3 py-2 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-500 mb-1">วัน/เดือน/ปีเกิด</label>
+                        <input type="text" name="BIRTHDAY" placeholder="เช่น 15/04/2501" class="w-full border border-gray-300 rounded-md px-3 py-2 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-500 mb-1">สถานะภาพ</label>
+                        <input type="text" name="STATUS" class="w-full border border-gray-300 rounded-md px-3 py-2 outline-none">
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <h2 class="text-xl font-semibold mb-4 text-gray-700 border-b pb-2">ช่องทางการติดต่อ</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm text-gray-500 mb-1">มือถือ (Mobile)</label>
+                            <input type="text" name="Mobile" class="w-full border border-gray-300 rounded-md px-3 py-2 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-500 mb-1">อีเมล (Email)</label>
+                            <input type="email" name="Email" class="w-full border border-gray-300 rounded-md px-3 py-2 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-500 mb-1">โทรศัพท์บ้าน</label>
+                            <input type="text" name="Htel" class="w-full border border-gray-300 rounded-md px-3 py-2 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-500 mb-1">โทรศัพท์ที่ทำงาน</label>
+                            <input type="text" name="Otel" class="w-full border border-gray-300 rounded-md px-3 py-2 outline-none">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <h2 class="text-xl font-semibold mb-4 text-gray-700 border-b pb-2">ที่อยู่ปัจจุบัน</h2>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm text-gray-500 mb-1">บ้านเลขที่</label>
+                            <input type="text" name="Hno" class="w-full border border-gray-300 rounded-md px-3 py-2 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-500 mb-1">ซอย</label>
+                            <input type="text" name="Hsoi" class="w-full border border-gray-300 rounded-md px-3 py-2 outline-none">
+                        </div>
+                        <div class="col-span-2">
+                            <label class="block text-sm text-gray-500 mb-1">ถนน</label>
+                            <input type="text" name="Hroad" class="w-full border border-gray-300 rounded-md px-3 py-2 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-500 mb-1">เขต/อำเภอ</label>
+                            <input type="text" name="Hdistrict" class="w-full border border-gray-300 rounded-md px-3 py-2 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-500 mb-1">จังหวัด</label>
+                            <input type="text" name="Hprv" class="w-full border border-gray-300 rounded-md px-3 py-2 outline-none">
+                        </div>
+                        <div class="col-span-2">
+                            <label class="block text-sm text-gray-500 mb-1">รหัสไปรษณีย์</label>
+                            <input type="text" name="Hzip" class="w-full border border-gray-300 rounded-md px-3 py-2 outline-none">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                <h2 class="text-xl font-semibold mb-4 text-gray-700 border-b pb-2">ข้อมูลสถานที่ทำงาน (Workplace)</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="md:col-span-2">
+                        <label class="block text-sm text-gray-500 mb-1">ชื่อบริษัท / องค์กร</label>
+                        <input type="text" name="Company" class="w-full border border-gray-300 rounded-md px-3 py-2 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-500 mb-1">ประเภทธุรกิจ</label>
+                        <input type="text" name="Business" class="w-full border border-gray-300 rounded-md px-3 py-2 outline-none">
+                    </div>
+                    <div class="md:col-span-3">
+                        <label class="block text-sm text-gray-500 mb-1">ตำแหน่ง</label>
+                        <input type="text" name="POSITION" class="w-full border border-gray-300 rounded-md px-3 py-2 outline-none">
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</body>
+</html>

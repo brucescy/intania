@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intania Alumni - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+    <style> body { font-family: 'Prompt', sans-serif; background-color: #f3f4f6; } </style>
+	<div class="flex justify-between items-start mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900">ระบบฐานข้อมูลศิษย์เก่า (Intania)</h1>
+                <p class="text-gray-500 mt-1">ค้นหาและจัดการรายชื่อสมาชิก</p>
+            </div>
+            <div class="flex gap-2">
+                <a href="/add" class="inline-flex items-center gap-1.5 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg shadow-sm transition-all">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                    เพิ่มสมาชิกใหม่
+                </a>
+
+                <a href="/export" class="inline-flex items-center gap-1.5 text-sm font-semibold text-green-700 hover:text-white border border-green-200 hover:border-green-600 bg-white hover:bg-green-600 px-4 py-2 rounded-lg shadow-sm transition-all">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    ส่งออกข้อมูล (Excel)
+                </a>
+                
+                <a href="/logout" class="text-sm font-medium text-red-600 hover:text-red-800 border border-red-200 hover:border-red-600 bg-white px-4 py-2 rounded-lg shadow-sm transition-all">
+                    ออกจากระบบ &rarr;
+                </a>
+            </div>
+        </div>
+</head>
+<body class="text-gray-800">
+    <div class="max-w-6xl mx-auto py-10 px-4">
+        
+        <div class="flex justify-between items-start mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900">ระบบฐานข้อมูลศิษย์เก่า (Intania)</h1>
+                <p class="text-gray-500 mt-1">ค้นหาและจัดการรายชื่อสมาชิก</p>
+            </div>
+            <div class="flex gap-2">
+                <a href="/export" class="inline-flex items-center gap-1.5 text-sm font-semibold text-green-700 hover:text-white border border-green-200 hover:border-green-600 bg-white hover:bg-green-600 px-4 py-2 rounded-lg shadow-sm transition-all">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    ส่งออกข้อมูล (Excel)
+                </a>
+                
+                <a href="/logout" class="text-sm font-medium text-red-600 hover:text-red-800 border border-red-200 hover:border-red-600 bg-white px-4 py-2 rounded-lg shadow-sm transition-all">
+                    ออกจากระบบ &rarr;
+                </a>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500 font-medium">สมาชิกทั้งหมด</p>
+                    <h3 class="text-2xl font-bold text-gray-900 mt-1">{{ stats['total'] }} คน</h3>
+                </div>
+                <div class="p-3 bg-blue-50 text-blue-600 rounded-lg">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500 font-medium">มีเบอร์ติดต่อมือถือ</p>
+                    <h3 class="text-2xl font-bold text-green-600 mt-1">{{ stats['has_mobile'] }} คน</h3>
+                </div>
+                <div class="p-3 bg-green-50 text-green-600 rounded-lg">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500 font-medium">จำนวนรุ่นทั้งหมด</p>
+                    <h3 class="text-2xl font-bold text-purple-600 mt-1">{{ stats['total_classes'] }} รุ่น</h3>
+                </div>
+                <div class="p-3 bg-purple-50 text-purple-600 rounded-lg">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col justify-center">
+                <p class="text-xs text-gray-400 font-semibold uppercase tracking-wider mb-1.5">องค์กรยอดนิยม (TOP 3)</p>
+                <div class="space-y-1">
+                    {% for comp in stats['top_companies'] %}
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="text-gray-600 font-medium truncate max-w-[130px]" title="{{ comp['Company'] }}">{{ comp['Company'] }}</span>
+                        <span class="text-gray-500 font-bold bg-gray-100 px-1.5 py-0.5 rounded">{{ comp['count'] }} คน</span>
+                    </div>
+                    {% else %}
+                    <span class="text-xs text-gray-400">ไม่มีข้อมูล</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 mb-6">
+            <form action="/" method="GET" class="flex gap-4">
+                <input type="text" name="search" value="{{ search_query }}" placeholder="ค้นหาจาก ชื่อ, นามสกุล หรือ รุ่น..." 
+                       class="w-full border border-gray-300 rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none">
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2 rounded-lg shadow transition-colors font-medium">ค้นหา</button>
+                <a href="/" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-6 py-2 rounded-lg shadow transition-colors font-medium flex items-center">รีเซ็ต</a>
+            </form>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-6">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-gray-50 border-b border-gray-200 text-gray-600 text-sm">
+                        <th class="p-4 font-semibold">รหัส</th>
+                        <th class="p-4 font-semibold">รุ่น</th>
+                        <th class="p-4 font-semibold">ชื่อ - นามสกุล</th>
+                        <th class="p-4 font-semibold">เบอร์มือถือ</th>
+                        <th class="p-4 font-semibold">บริษัท/องค์กร</th>
+                        <th class="p-4 font-semibold text-center">จัดการ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in members %}
+                    <tr class="border-b border-gray-100 bg-white even:bg-gray-50/70 hover:bg-blue-50/40 transition-colors">
+                        <td class="p-4 text-sm text-gray-500">{{ row['CuCode'] }}</td>
+                        <td class="p-4 font-medium text-blue-600">{{ row['CLASS'] }}</td>
+                        <td class="p-4 font-medium">{{ row['NAME_T'] }} {{ row['SNAME_T'] }}</td>
+                        <td class="p-4 text-sm">{{ row['Mobile'] or '-' }}</td>
+                        <td class="p-4 text-sm text-gray-500">{{ row['Company'] or '-' }}</td>
+                        <td class="p-4 text-center">
+                            <a href="/profile/{{ row['CuCode'] }}" class="text-blue-600 hover:text-white font-medium text-sm border border-blue-600 hover:bg-blue-600 bg-white px-4 py-1.5 rounded transition-colors block md:inline-block">
+                                ดูประวัติ
+                            </a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="p-8 text-center text-gray-500">ไม่พบข้อมูลที่ค้นหา</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if total_pages > 1 %}
+        <div class="flex items-center justify-between bg-white px-4 py-3 rounded-xl shadow-sm border border-gray-100">
+            <div class="text-sm text-gray-500">
+                แสดงรายการที่ <span class="font-semibold">{{ ((page - 1) * 50) + 1 }}</span> ถึง 
+                <span class="font-semibold">{% if page * 50 > total_filtered %}{{ total_filtered }}{% else %}{{ page * 50 }}{% endif %}</span> 
+                จากทั้งหมด <span class="font-semibold">{{ total_filtered }}</span> รายการ
+            </div>
+            <div class="flex gap-1">
+                {% if page > 1 %}
+                <a href="/?search={{ search_query }}&page={{ page - 1 }}" class="px-3 py-1.5 rounded border border-gray-300 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">&larr;</a>
+                {% endif %}
+
+                {% for p in range(1, total_pages + 1) %}
+                    {% if p == page %}
+                    <span class="px-3 py-1.5 rounded bg-blue-600 text-white text-sm font-semibold">{{ p }}</span>
+                    {% else %}
+                    <a href="/?search={{ search_query }}&page={{ p }}" class="px-3 py-1.5 rounded border border-gray-300 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">{{ p }}</a>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page < total_pages %}
+                <a href="/?search={{ search_query }}&page={{ page + 1 }}" class="px-3 py-1.5 rounded border border-gray-300 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">&rarr;</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</body>
+</html>

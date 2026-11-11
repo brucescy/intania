@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intania Alumni Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Prompt', sans-serif; background-color: #f3f4f6; }
+
+        /* 🖨️ CSS สำหรับการพิมพ์ (Print Stylesheet) */
+        @media print {
+            button, 
+            a, 
+            input[type="file"],
+            .no-print {
+                display: none !important;
+            }
+
+            body {
+                background-color: white !important;
+                color: black !important;
+                -webkit-print-color-adjust: exact;
+            }
+
+            input, select, textarea {
+                border: none !important;
+                border-bottom: 1px solid #ccc !important;
+                background: transparent !important;
+                padding: 2px 0 !important;
+                box-shadow: none !important;
+            }
+
+            .shadow-sm, .shadow {
+                box-shadow: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="max-w-5xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+        
+        {% if show_success %}
+        <div class="mb-6 p-4 bg-green-50 border-l-4 border-green-500 rounded-r-xl shadow-sm flex items-center justify-between no-print">
+            <div class="flex items-center">
+                <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                <span class="text-green-800 font-medium">บันทึกการเปลี่ยนแปลงและอัปเดตข้อมูลเรียบร้อยแล้วบอส!</span>
+            </div>
+        </div>
+        {% endif %}
+
+        <form method="POST" action="/profile/{{ member['CuCode'] }}" enctype="multipart/form-data" class="space-y-6">
+            
+            <div class="flex justify-between items-center mb-8">
+                <div>
+                    <a href="/" class="inline-flex items-center text-sm text-blue-600 hover:text-blue-800 font-medium mb-3">
+                        &larr; กลับไปหน้าค้นหา
+                    </a>
+                    <h1 class="text-3xl font-bold text-gray-900">แฟ้มประวัติสมาชิก (Alumni Profile)</h1>
+                    <p class="text-gray-500 mt-1">รหัสสมาชิก: <span class="font-semibold">{{ member['CuCode'] }}</span> | รุ่น: <span class="font-semibold text-blue-600">Intania {{ member['CLASS'] }}</span></p>
+                </div>
+                
+                <!-- กลุ่มปุ่มจัดการด้านบนขวา -->
+                <div class="flex items-center gap-3">
+                    <!-- ➕ ปุ่มพิมพ์ข้อมูล (Print) -->
+                    <button type="button" onclick="window.print()" class="bg-gray-600 hover:bg-gray-700 text-white px-5 py-2 rounded-lg shadow transition-colors font-medium flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                        </svg>
+                        พิมพ์ข้อมูล
+                    </button>
+
+                    <!-- ปุ่มบันทึกข้อมูลเดิม -->
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg shadow transition-colors font-medium">
+                        บันทึกข้อมูล
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                <h2 class="text-xl font-semibold mb-4 text-gray-700 border-b pb-2">ข้อมูลส่วนตัว</h2>
+                
+                <div class="flex flex-col sm:flex-row items-center gap-6 bg-gray-50 p-4 rounded-xl border border-dashed border-gray-300 mb-6">
+                    <div class="w-24 h-24 bg-gray-200 rounded-full overflow-hidden flex items-center justify-center border-2 border-white shadow-md shrink-0">
+                        {% if member['Picture'] and '.' in member['Picture'] %}
+                        <img src="{{ url_for('static', filename='uploads/' + member['Picture']) }}" class="w-full h-full object-cover">
+                        {% else %}
+                        <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                        </svg>
+                        {% endif %}
+                    </div>
+                    <div class="text-center sm:text-left">
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">รูปประจำตัวสมาชิก</label>
+                        <input type="file" name="picture_file" accept="image/*" class="text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
+                        <input type="hidden" name="current_picture" value="{{ member['Picture'] }}">
+                        <p class="text-xs text-gray-400 mt-1">รองรับไฟล์รูปภาพประเภท PNG, JPG, JPEG, GIF</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-sm text-gray-500 mb-1">คำนำหน้า</label>
+                        <input type="text" name="TITLE_T" value="{{ member['TITLE_T'] }}" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-500 mb-1">ชื่อ (ภาษาไทย)</label>
+                        <input type="text" name="NAME_T" value="{{ member['NAME_T'] }}" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-500 mb-1">นามสกุล (ภาษาไทย)</label>
+                        <input type="text" name="SNAME_T" value="{{ member['SNAME_T'] }}" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-500 mb-1">ชื่อเล่น</label>
+                        <input type="text" name="NINAME" value="{{ member['NINAME'] }}" class="w-full border border-gray-300 rounded-md px-3 py-2 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-500 mb-1">วัน/เดือน/ปีเกิด</label>
+                        <input type="text" name="BIRTHDAY" value="{{ member['BIRTHDAY'] }}" class="w-full border border-gray-300 rounded-md px-3 py-2 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-500 mb-1">สถานะภาพ</label>
+                        <input type="text" name="STATUS" value="{{ member['STATUS'] }}" class="w-full border border-gray-300 rounded-md px-3 py-2 outline-none">
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <h2 class="text-xl font-semibold mb-4 text-gray-700 border-b pb-2">ช่องทางการติดต่อ</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm text-gray-500 mb-1">มือถือ (Mobile)</label>
+                            <input type="text" name="Mobile" value="{{ member['Mobile'] }}" class="w-full border border-gray-300 rounded-md px-3 py-2 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-500 mb-1">อีเมล (Email)</label>
+                            <input type="email" name="Email" value="{{ member['Email'] }}" class="w-full border border-gray-300 rounded-md px-3 py-2 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-500 mb-1">โทรศัพท์บ้าน</label>
+                            <input type="text" name="Htel" value="{{ member['Htel'] }}" class="w-full border border-gray-300 rounded-md px-3 py-2 outline-none">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <h2 class="text-xl font-semibold mb-4 text-gray-700 border-b pb-2">ที่อยู่ปัจจุบัน</h2>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm text-gray-500 mb-1">บ้านเลขที่</label>
+                            <input type="text" name="Hno" value="{{ member['Hno'] }}" class="w-full border border-gray-300 rounded-md px-3 py-2 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-500 mb-1">ซอย</label>
+                            <input type="text" name="Hsoi" value="{{ member['Hsoi'] }}" class="w-full border border-gray-300 rounded-md px-3 py-2 outline-none">
+                        </div>
+                        <div class="col-span-2">
+                            <label class="block text-sm text-gray-500 mb-1">ถนน</label>
+                            <input type="text" name="Hroad" value="{{ member['Hroad'] }}" class="w-full border border-gray-300 rounded-md px-3 py-2 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-500 mb-1">เขต/อำเภอ</label>
+                            <input type="text" name="Hdistrict" value="{{ member['Hdistrict'] }}" class="w-full border border-gray-300 rounded-md px-3 py-2 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-500 mb-1">จังหวัด</label>
+                            <input type="text" name="Hprv" value="{{ member['Hprv'] }}" class="w-full border border-gray-300 rounded-md px-3 py-2 outline-none">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                <h2 class="text-xl font-semibold mb-4 text-gray-700 border-b pb-2">ข้อมูลสถานที่ทำงาน (Workplace)</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="md:col-span-2">
+                        <label class="block text-sm text-gray-500 mb-1">ชื่อบริษัท / องค์กร</label>
+                        <input type="text" name="Company" value="{{ member['Company'] }}" class="w-full border border-gray-300 rounded-md px-3 py-2 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-500 mb-1">ประเภทธุรกิจ</label>
+                        <input type="text" name="Business" value="{{ member['Business'] }}" class="w-full border border-gray-300 rounded-md px-3 py-2 outline-none">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm text-gray-500 mb-1">ตำแหน่ง</label>
+                        <input type="text" name="POSITION" value="{{ member['POSITION'] }}" class="w-full border border-gray-300 rounded-md px-3 py-2 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-500 mb-1">เบอร์โทรศัพท์ที่ทำงาน</label>
+                        <input type="text" name="Otel" value="{{ member['Otel'] }}" class="w-full border border-gray-300 rounded-md px-3 py-2 outline-none">
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</body>
+</html>
